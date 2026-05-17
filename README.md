@@ -195,7 +195,7 @@ Hacer clic en **"🔓 Cerrar Sesión"** en el menú lateral. El sistema elimina 
 
 ## 6. Base de Datos (Modelado)
 
-#### 6.1 ADMINISTRADOR DE LA BASE DE DATOS
+### 6.1 ADMINISTRADOR DE LA BASE DE DATOS
 
 Se diseñó  y creó una base de datos relacional llamada *sistema_acceso*, enfocado en la administración de accesos, registro de citas y control de usuarios dentro del sistema. La estructura  fue implementada en SQL utilizando sentencias CREATE DATABASE, CREATE TABLE y relaciones mediante FOREING KEY para garantizar integridad referencial.
 
@@ -215,7 +215,7 @@ La base de datos está compuesta por las siguientes tablas principales:
 ### 6.2 Configuración de la base de datos.
 La configuración fue realizada considerando que:
 
-### Llaves primaras  
+#### Llaves primaras  
 Cada tabla cuenta con un identificador único **PRIMARY KEY**
 Ejemplos: 
 + id_rol
@@ -224,7 +224,7 @@ Ejemplos:
 + id_persona
 + id_cita
 + id_acceso
-### Llaves foráneas
+#### Llaves foráneas
 Se implementaron **FOREIGN KEY** para conectar las tablas relacionadas, por ejemplo:
   + usuario.id_rol → rol.id_rol
   + empleado.id_usuario → usuarioid_usuario
@@ -233,7 +233,7 @@ Se implementaron **FOREIGN KEY** para conectar las tablas relacionadas, por ejem
   + acceso.id_cita → cita.id_cita
 
 Esto permite mantener consistencia en la información almacenada.
-### Restricciones de integridad
+#### Restricciones de integridad
 Se utilizaron restricciones como:
   + NOT NULL → campos obligatorios
   + UNIQUE → evita duplicados, por ejemplo en correos electrónicos
@@ -243,11 +243,11 @@ Se utilizaron restricciones como:
     - estado_cita → pendiente/confirmada/finalizada
 
 
-### Eliminación en cascada
+#### Eliminación en cascada
 Se configuró **ON DELETE CASCADE** para eliminar automáticamente registros relacionados cuando el registro principal se ha eliminado, enviando datos huérfanos. También se usó **ON DELETE SET NULL** en algunos casos para conservar historial sin romper relaciones.
 
 
-## 6.3 Presistencia de los datos de CRUD y Login
+### 6.3 Presistencia de los datos de CRUD y Login
 
 Para asegurar la persistencia de datos del sistema se implementó almacenamiento permanente en la base de datos, permitiendo conservar la información incluso depués de cerrar la aplicación o reiniciar el servidor.
 
@@ -294,7 +294,7 @@ Además, cada acción importante queda registrada en la bitácora, permitiendo a
 
 ---
 
-## 6.4 Documentación técnica de la base de datos
+### 6.4 Documentación técnica de la base de datos
 ```
   ROLL
     USUARIO
