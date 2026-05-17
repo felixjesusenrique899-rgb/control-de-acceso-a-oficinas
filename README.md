@@ -8,7 +8,7 @@
 | _(Sanz Hernandez Ignacio)_ | Desarrollador Frontend |
 | _(Claudia Guadalupe Romero)_ | Desarrollador de Autenticación |
 | _(Apellido, Nombre)_ | Desarrollador de Lógica CRUD |
-| _(Apellido, Nombre)_ | Administrador de Base de Datos |
+| _(Félix Olea, Jesús Enrique)_ | Administrador de Base de Datos |
 | _(Apellido, Nombre)_ | Arquitecto de Software |
 | _(Apellido, Nombre)_ | Líder de Proyecto |
 
