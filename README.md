@@ -191,12 +191,145 @@ Hacer clic en **"🔓 Cerrar Sesión"** en el menú lateral. El sistema elimina 
 
 > ⚠️ Si se intenta acceder al Dashboard o Gestión de Citas sin sesión activa, el sistema redirige automáticamente al Login.
 
----
+***
 
 ## 6. Base de Datos (Modelado)
-> _(Esta sección la documenta el Administrador de Base de Datos)_
+
+#### 6.1 ADMINISTRADOR DE LA BASE DE DATOS
+
+Se diseñó  y creó una base de datos relacional llamada *sistema_acceso*, enfocado en la administración de accesos, registro de citas y control de usuarios dentro del sistema. La estructura  fue implementada en SQL utilizando sentencias CREATE DATABASE, CREATE TABLE y relaciones mediante FOREING KEY para garantizar integridad referencial.
+
+La base de datos está compuesta por las siguientes tablas principales:  
++ **rol:** almacena los tipos de roles del sistema (Administrador, Recepcionista, Seguridad).
++ **usuario:** guarda información de acceso de los usuarios internos.
++ **empleado:** registra empleados relacionados con usuarios internos.
++ **bitacora:** almacena eventos importantes como inicio de sesión, registros y autorizaciones.
++ **persona externa:** registra visitantes, clientes y proveedores.
++ **visitante:** extensión de persona externa para clientes.
++ **proveedor:** extensión de persona externa para visitantes.
++ **cita:** administra citas programadas.
++ **acceso:** controla entradas y salidas registradas dentro del sistema.
 
 ---
+
+### 6.2 Configuración de la base de datos.
+La configuración fue realizada considerando que:
+
+### Llaves primaras  
+Cada tabla cuenta con un identificador único **PRIMARY KEY**
+Ejemplos: 
++ id_rol
++ id_usuario
++ id_empleado
++ id_persona
++ id_cita
++ id_acceso
+### Llaves foráneas
+Se implementaron **FOREIGN KEY** para conectar las tablas relacionadas, por ejemplo:
+  + usuario.id_rol → rol.id_rol
+  + empleado.id_usuario → usuarioid_usuario
+  + cliente.id_persona → persona_externa.id_persona
+  + cita.id_persona → persona_externaid_persona
+  + acceso.id_cita → cita.id_cita
+
+Esto permite mantener consistencia en la información almacenada.
+### Restricciones de integridad
+Se utilizaron restricciones como:
+  + NOT NULL → campos obligatorios
+  + UNIQUE → evita duplicados, por ejemplo en correos electrónicos
+  + DEFAULT → valores automáticos como fecha de creación o estado activo
+  + ENUM → controla valores válidos en campos como:
+    - tipo_persona → cliente/visitante/proveedor
+    - estado_cita → pendiente/confirmada/finalizada
+
+
+### Eliminación en cascada
+Se configuró **ON DELETE CASCADE** para eliminar automáticamente registros relacionados cuando el registro principal se ha eliminado, enviando datos huérfanos. También se usó **ON DELETE SET NULL** en algunos casos para conservar historial sin romper relaciones.
+
+
+## 6.3 Presistencia de los datos de CRUD y Login
+
+Para asegurar la persistencia de datos del sistema se implementó almacenamiento permanente en la base de datos, permitiendo conservar la información incluso depués de cerrar la aplicación o reiniciar el servidor.
+
+**CRUD** 
+El sistema permite:
+**Create (Crear)**
++ registrar usuarios
++ registrar empleados
++ registrar proveedores
++ registrar personas externas
++ registrar accesos
++ crear citas 
+
+**Read (Leer)**
++ consultar usuarios
++ ver historial de accesos
++ consultar bitácora
++ ver vitas programadas
+
+**Update (Actualizar)**
++ modificar los datos del usuario
++ cambiar estado de la cita
++ actualiazar la información de proveedores/clientes
+
+**Delete (Borrar/Eliminar)**
++ eliminar registros obsoletos
++ eliminar a los usuarios inactivos
++ cancelar citas
+
+**Login**
+El sistema de autenticación utiliza la tabla **usuario**, donde se almacena la siguiente información:
++ nombres
++ apellidos
++ correos
++ contraseñas
++ teléfonos
++ roles
++ estados de cuenta
+Con ello se valida el acceso según los priviliegios que esta tenga:
++ administrador → control total
++ recepcionista → gestión de citas y accesos
++ seguridad → control de entradas y salidas
+Además, cada acción importante queda registrada en la bitácora, permitiendo auditorías del sistema.
+
+---
+
+## 6.4 Documentación técnica de la base de datos
+```
+  ROLL
+    USUARIO
+       EMPLEADO
+          CITA
+          ACCESO
+
+   PERSONA_EXTERNA
+    CLIENTE
+    VISITANTE
+    PROVEEDOR
+       CITA
+       ACCESO
+```
+**Seguridad implementada**
+Se contemplaron: 
+```
+control de roles
+ bitácora de movimientos
+  integridad referencial
+   validación de campos obligatorios
+    persistencia segura de registros
+```
+
+**Escalabilidad**
+La estructura permite añadir fácilmente nuevos módulos como:
++ control biométrico
++ reportes administrativos
++ notificaciones automáticas
++ autenticación más robusta (hash de contraseñas)
++ panel web administativo
+
+*** 
+
+
 
 ## 📌 Desarrollo del Frontend
 
